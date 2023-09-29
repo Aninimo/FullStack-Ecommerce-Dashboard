@@ -1,11 +1,11 @@
 import { GetServerSidePropsContext } from 'next'
 import { format } from 'date-fns'
 
-import { OrderColumn } from '../../../../components/orders/ordersComponents/columns'
-import { OrderClient } from '../../../../components/orders/ordersComponents/client'
-import prismadb from '../../../../lib/prismadb'
-import { formatter } from '../../../../lib/utils'
-import { OrderProps, OrderItemProps } from '../../../../types'
+import { OrderColumn } from '../../../components/orders/ordersComponents/columns'
+import { OrderClient } from '../../../components/orders/ordersComponents/client'
+import prismadb from '../../../lib/prismadb'
+import { formatter } from '../../../lib/utils'
+import { OrderProps, OrderItemProps } from '../../../types'
 
 interface OrdersPageProps {
   result: OrderProps[]; 
