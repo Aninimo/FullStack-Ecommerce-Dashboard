@@ -3,8 +3,8 @@ import { useRouter } from 'next/router'
 import { Copy, Edit, MoreHorizontal, Trash } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 
-import { AlertModal } from '../../../../../components/modals/alert-modal'
-import { Button } from '../../../../../components/ui/button'
+import { AlertModal } from '../../modals/alert-modal'
+import { Button } from '../../ui/button'
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
