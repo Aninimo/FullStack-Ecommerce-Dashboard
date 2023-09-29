@@ -1,6 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 
-import { SizeForm } from '../../../../components/sizeIdComponents/size-form'
+import { SizeForm } from '../../../../components/sizes/sizeIdComponents/size-form'
 import prismadb from '../../../../lib/prismadb'
 
 interface SizePageProps {
