@@ -2,10 +2,10 @@ import { useRouter } from 'next/router'
 import { Plus } from 'lucide-react'
 
 import { Heading } from '../../ui/heading'
-import { Button } from '../../components/ui/button'
-import { Separator } from '../../components/ui/separator'
-import { DataTable } from '../../components/ui/data-table'
-import { ApiList } from '../../components/ui/api-list'
+import { Button } from '../../ui/button'
+import { Separator } from '../../ui/separator'
+import { DataTable } from '../../ui/data-table'
+import { ApiList } from '../../ui/api-list'
 
 import { ProductColumn, columns } from './columns'
 
