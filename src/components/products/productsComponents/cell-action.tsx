@@ -11,7 +11,7 @@ import {
   DropdownMenuItem, 
   DropdownMenuLabel, 
   DropdownMenuTrigger
-} from '../../components/ui/dropdown-menu'
+} from '../../ui/dropdown-menu'
 
 import { ProductColumn } from './columns'
 
