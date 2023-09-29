@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from 'next'
 import { format } from 'date-fns'
 
 import { CategoryColumn } from '../../../components/categories/categoriesComponents/columns'
-import { CategoriesClient } from '.../../../components/categories/categoriesComponents/client'
+import { CategoriesClient } from '../../../components/categories/categoriesComponents/client'
 import prismadb from '../../../lib/prismadb'
 import { CategoryProps } from '../../../types'
 
