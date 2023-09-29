@@ -1,8 +1,8 @@
 import { GetServerSidePropsContext } from 'next'; 
 
-import { ColorForm } from '../../../../../components/colors/colorIdComponents/color-form'
-import prismadb from '../../../../../lib/prismadb'
-import { ColorProps } from '../../../../../types'
+import { ColorForm } from '../../../../components/colors/colorIdComponents/color-form'
+import prismadb from '../../../../lib/prismadb'
+import { ColorProps } from '../../../../types'
 
 interface ColorPageProps {
   color: ColorProps | null;
