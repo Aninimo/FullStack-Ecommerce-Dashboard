@@ -16,20 +16,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../../../../../../components/ui/form'
-import { Input } from '../../../../../../components/ui/input'
-import { ImageUpload } from '../../../../../../components/ui/image-upload'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../../../../components/ui/select'
-import { Checkbox } from '../../../../../../components/ui/checkbox'
+} from '../../ui/form'
+import { Input } from '../../ui/input'
+import { ImageUpload } from '../../ui/image-upload'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select'
+import { Checkbox } from '../../ui/checkbox'
 
-import { Button } from '../../../../../../components/ui/button'
-import { Separator } from '../../../../../../components/ui/separator'
+import { Button } from '../../ui/button'
+import { Separator } from '../../ui/separator'
 import { 
   CategoryProps,
   ColorProps, 
   ImageProps, 
   ProductProps, 
-  SizeProps } from '../../../../../../types'
+  SizeProps } from '../../../types'
 
 const formSchema = z.object({
   name: z.string().min(1),
