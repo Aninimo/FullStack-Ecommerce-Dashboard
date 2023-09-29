@@ -1,10 +1,10 @@
 import { GetServerSidePropsContext } from 'next'
 import { format } from 'date-fns'
 
-import { ColorColumn } from '../../../../components/colors/colorsComponents/columns'
-import { ColorClient } from '../../../../components/colors/colorsComponents/client'
-import prismadb from '../../../../lib/prismadb'
-import { ColorProps } from '../../../../types'
+import { ColorColumn } from '../../../components/colors/colorsComponents/columns'
+import { ColorClient } from '../../../components/colors/colorsComponents/client'
+import prismadb from '../../../lib/prismadb'
+import { ColorProps } from '../../../types'
 
 interface ColorsPageProps{
   result: ColorProps[];
