@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext } from 'next';
 import { PrismaClient } from '@prisma/client';
 
-import { CategoryForm } from '../../../../categories/categoryIdComponents/components/category-form';
+import { CategoryForm } from '../../../../components/categories/categoryIdComponents/category-form';
 import prismadb from '../../../../lib/prismadb';
 import { BillboardProps, CategoryProps } from '../../../../types'
 
