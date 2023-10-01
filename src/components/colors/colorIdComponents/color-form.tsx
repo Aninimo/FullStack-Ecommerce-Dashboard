@@ -80,7 +80,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({
     toast.success(toastMessage);
 
     router.push({
-      pathname: `/${params.storeId}/routes/colors`,
+      pathname: `/${params.storeId}/colors`,
       query: { formData: responseData },
     });
   } catch (error: any) {
