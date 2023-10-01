@@ -9,7 +9,7 @@ export default async function handler(
 ) {
   try{
     if(req.method === 'POST'){
-      const { userId } = getAuth(req)
+      const { userId } = req.auth;
 
       const { body } = req
       const { name, value } = body
