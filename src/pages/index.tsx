@@ -27,11 +27,18 @@ export default function App() {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
 
-  const { userId } = getAuth(req);
+  const auth = getAuth(req);
+  const userId = auth.userId || '';
+
+  if (!userId) {
+    context.res.writeHead(302, { Location: '/sign-in' });
+    context.res.end();
+    return { props: {} };
+  }
 
   const store = await prismadb.store.findFirst({
     where: {
-      userId as string,
+      userId,
     },
   });
 
