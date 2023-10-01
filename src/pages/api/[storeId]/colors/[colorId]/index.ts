@@ -1,22 +1,21 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { withServerSideAuth } from '@clerk/nextjs/ssr'
-
 import prismadb from '../../../../../lib/prismadb'
 
-export default async function handler(
+export default withServerSideAuth(async function handler(
   req: NextApiRequest, 
   res: NextApiResponse
 ) {
-  try{
-    if(req.method === 'POST'){
-      const { userId } = req.auth;
+  try {
+    const { userId } = req.auth;
+    
+    if (!userId) {
+      throw new Error('Unauthenticated')
+    }
 
+    if (req.method === 'POST') {
       const { body } = req
       const { name, value } = body
-
-      if (!userId) {
-        throw new Error('Unauthenticated')
-      }
 
       if (!name) {
         throw new Error('Name is required')
@@ -73,10 +72,10 @@ export default async function handler(
       
       return res.status(200).json(colors)
     }
-    return res.status(405).end()
-  }catch (error) {
-    console.log(error)
 
+    return res.status(405).end()
+  } catch (error) {
+    console.error(error)
     return res.status(500).end()
   }
 })
