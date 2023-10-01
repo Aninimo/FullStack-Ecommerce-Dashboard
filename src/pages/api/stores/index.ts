@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { auth } from '@clerk/nextjs';
- 
+import { useAuth } from '@clerk/nextjs'
+
 import prismadb from '../../../lib/prismadb'
 
 export default async function handler(
@@ -9,7 +9,7 @@ export default async function handler(
 ) {
   try {
     if(req.method === 'POST'){
-      const { userId } = auth()
+      const { userId } = useAuth()
       const { body } = req
     
       const { name } = body
