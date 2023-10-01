@@ -39,7 +39,7 @@ export default function DashboardLayout({
 }
 
 export const getServerSideProps = withServerSideAuth(async ({ req, res, params }) => {
-  const { userId } = getAuth(req)
+  const { userId } = req.auth;
   const storeId = params?.context as string;
 
   const totalRevenue = await getTotalRevenue(storeId);
