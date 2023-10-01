@@ -3,7 +3,7 @@ import { withServerSideAuth } from '@clerk/nextjs/ssr'
 
 import prismadb from '../../../../../lib/prismadb'
 
-export default withServerSideAuth(async function handler(
+export default async function handler(
   req: NextApiRequest, 
   res: NextApiResponse
 ) {
