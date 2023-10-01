@@ -13,7 +13,7 @@ export default function App() {
 }
 
 export const getServerSideProps = withServerSideAuth(async ({ req, res }) => {
-  const { userId } = req.auth;
+  const { userId } = getAuth(req);
 
   if (!userId) {
     res.writeHead(302, { Location: '/sign-in' });
