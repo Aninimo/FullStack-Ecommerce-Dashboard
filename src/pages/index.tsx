@@ -1,5 +1,4 @@
 import { withServerSideAuth } from '@clerk/nextjs/ssr'
-import { getAuth } from '@clerk/nextjs/server'
 
 import SetupPage from './SetupPage'
 import prismadb from '../lib/prismadb'
@@ -13,7 +12,7 @@ export default function App() {
 }
 
 export const getServerSideProps = withServerSideAuth(async ({ req, res }) => {
-  const { userId } = getAuth(req);
+  const { userId } = req.auth;
 
   if (!userId) {
     res.writeHead(302, { Location: '/sign-in' });
