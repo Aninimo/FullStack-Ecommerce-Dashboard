@@ -84,7 +84,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({
       query: { formData: responseData },
     });
   } catch (error: any) {
-    toast.error('Something went wrong.');
+    toast.error(error);
   } finally {
     setLoading(false);
   }
