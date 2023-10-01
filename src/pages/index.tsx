@@ -28,13 +28,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
 
   const auth = getAuth(req);
-  const userId = auth.userId || '';
-
-  if (!userId) {
-    context.res.writeHead(302, { Location: '/sign-in' });
-    context.res.end();
-    return { props: {} };
-  }
+  const userId = auth.userId
 
   const store = await prismadb.store.findFirst({
     where: {
