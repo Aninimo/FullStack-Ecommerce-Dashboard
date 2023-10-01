@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { GetServerSidePropsContext } from 'next'
+import { GetServerSideProps } from 'next'
 import { useAuth } from '@clerk/nextjs'
 import { getAuth } from '@clerk/nextjs/server'
 
