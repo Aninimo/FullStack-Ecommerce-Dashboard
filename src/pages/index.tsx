@@ -28,11 +28,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
 
   const auth = getAuth(req);
-  const userId = auth.userId
+  const userId = auth.userId || ''
 
   const store = await prismadb.store.findFirst({
     where: {
-      userId as string,
+      userId,
     },
   });
 
