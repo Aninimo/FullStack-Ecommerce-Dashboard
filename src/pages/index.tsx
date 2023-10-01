@@ -1,9 +1,21 @@
-import { withServerSideAuth } from '@clerk/nextjs/ssr'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { GetServerSidePropsContext } from 'next'
+import { useAuth } from '@clerk/nextjs'
 
 import SetupPage from './SetupPage'
 import prismadb from '../lib/prismadb'
 
 export default function App() {  
+  const router = useRouter()
+  const { userId } = useAuth();
+ 
+  useEffect(() => {
+    if (!userId) {
+      router.push('/sign-in');
+    }
+  }, [userId, router]);
+  
   return (
     <>
       <SetupPage/>
@@ -11,14 +23,8 @@ export default function App() {
   )
 }
 
-export const getServerSideProps = withServerSideAuth(async ({ req, res }) => {
-  const { userId } = req.auth;
-
-  if (!userId) {
-    res.writeHead(302, { Location: '/sign-in' });
-    res.end();
-    return { props: {} };
-  }
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { userId } = useAuth();
 
   const store = await prismadb.store.findFirst({
     where: {
