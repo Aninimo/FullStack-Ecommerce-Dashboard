@@ -1,9 +1,15 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import { withServerSideAuth } from '@clerk/nextjs/ssr'
 
-export default withServerSideAuth(async ({ req, res, context }) => {
+import prismadb from '../../../lib/prismadb'
+
+const handler = async (
+  req: NextApiRequest, 
+  res: NextApiResponse
+) => {
   try {
     if (req.method === 'POST') {
-      const { userId } = context.auth; // Obtenha o userId do contexto de autenticação
+      const { userId } = req.auth;
       const { body } = req;
       const { name } = body;
 
@@ -28,4 +34,6 @@ export default withServerSideAuth(async ({ req, res, context }) => {
     console.error('[STORES_POST]', error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
-});
+};
+
+export default withServerSideAuth(handler);
