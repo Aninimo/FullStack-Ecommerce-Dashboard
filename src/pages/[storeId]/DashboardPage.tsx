@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/ca
 import { Overview } from '../../components/overview'
 import { formatter } from '../../lib/utils'
 
-export function DashboardPage({
+export default function DashboardPage({
   totalRevenue,
   salesCount,
   stockCount,
