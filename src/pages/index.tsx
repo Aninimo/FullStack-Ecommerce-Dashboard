@@ -18,8 +18,6 @@ export default function MyPage() {
           userId,
         },
       });
-
-      setHasStore(!!store);
     };
 
     if (!userId) {
