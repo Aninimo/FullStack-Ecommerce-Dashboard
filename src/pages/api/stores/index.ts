@@ -3,16 +3,26 @@ import { withServerSideAuth } from '@clerk/nextjs/ssr'
 
 import prismadb from '../../../lib/prismadb'
 
+const middleware = async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    const { userId } = req.auth;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    return handler(req, res);
+  } catch (error) {
+    console.error('[AUTH_MIDDLEWARE]', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method === 'POST') {
-      const { userId } = req.auth;
       const { body } = req;
       const { name } = body;
-
-      if (!userId) {
-        return res.status(401).json({ error: 'Unauthorized' });
-      }
 
       if (!name) {
         return res.status(400).json({ error: 'Name is required' });
@@ -21,7 +31,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       const store = await prismadb.store.create({
         data: {
           name,
-          userId,
+          userId: req.auth.userId, // Agora você pode acessar o userId do middleware
         },
       });
 
@@ -33,4 +43,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default withServerSideAuth(handler);
+export default withServerSideAuth(middleware);
