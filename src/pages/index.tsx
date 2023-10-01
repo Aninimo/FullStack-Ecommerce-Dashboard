@@ -2,19 +2,17 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@clerk/nextjs/server';
 
-import SetupPage from './SetupPage'
+import SetupPage from './SetupPage';
 import prismadb from '../lib/prismadb';
 
 export default function MyPage() {
   const router = useRouter();
-  const { userId } = useAuth();
+  const auth = useAuth();
+  const userId = auth.userId || '';
   const [hasStore, setHasStore] = useState(null);
 
   useEffect(() => {
     const checkStore = async () => {
-      const auth = useAuth();
-      const userId = auth.userId || '';
-
       const store = await prismadb.store.findFirst({
         where: {
           userId,
@@ -31,10 +29,9 @@ export default function MyPage() {
     }
   }, [userId, router]);
 
-  return(
+  return (
     <>
-      <SetupPage/>
+      <SetupPage />
     </>
-  )
+  );
 }
-
