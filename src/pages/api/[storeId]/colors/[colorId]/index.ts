@@ -55,7 +55,7 @@ export default async function handler(
     } 
 
     if (req.method === 'GET') {
-      const { storeId } = req.query
+      const storeId = req.query.storeId as string;
 
       if (!storeId) {
         throw new Error('Store id is required')
