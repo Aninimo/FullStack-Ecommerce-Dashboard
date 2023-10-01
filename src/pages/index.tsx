@@ -9,7 +9,7 @@ export default function MyPage() {
   const router = useRouter();
   const auth = useAuth();
   const userId = auth.userId || '';
-  const [hasStore, setHasStore] = useState(null);
+  const [hasStore, setHasStore] = useState(false);
 
   useEffect(() => {
     const checkStore = async () => {
