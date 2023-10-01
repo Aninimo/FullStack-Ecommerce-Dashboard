@@ -19,7 +19,7 @@ export default function ColorPage({ color }: ColorPageProps){
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const colorId = context.params?.colorId as string | undefined; 
+  const colorId = context.params?.colorId as string; 
 
   try {
     const color = await prismadb.color.findUnique({
