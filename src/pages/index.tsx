@@ -1,43 +1,40 @@
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { GetServerSideProps } from 'next'
-import { useAuth } from '@clerk/nextjs'
-import { getAuth } from '@clerk/nextjs/server'
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useAuth } from '@clerk/nextjs/server';
 
 import SetupPage from './SetupPage'
-import prismadb from '../lib/prismadb'
+import prismadb from '../lib/prismadb';
 
-export default function App() {  
-  const router = useRouter()
+export default function MyPage() {
+  const router = useRouter();
   const { userId } = useAuth();
- 
+  const [hasStore, setHasStore] = useState(null);
+
   useEffect(() => {
+    const checkStore = async () => {
+      const auth = useAuth();
+      const userId = auth.userId || '';
+
+      const store = await prismadb.store.findFirst({
+        where: {
+          userId,
+        },
+      });
+
+      setHasStore(!!store);
+    };
+
     if (!userId) {
       router.push('/sign-in');
+    } else {
+      checkStore();
     }
   }, [userId, router]);
-  
-  return (
+
+  return(
     <>
       <SetupPage/>
     </>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const auth = getAuth(ctx.req);
-  const userId = auth.userId || '';
-  
-  const store = await prismadb.store.findFirst({
-    where: {
-      userId,
-    },
-  });
-
-  if (store) {
-    ctx.res.writeHead(302, { Location: `/${store.id}` });
-    ctx.res.end();
-  }
-
-  return { props: {} };
-}
