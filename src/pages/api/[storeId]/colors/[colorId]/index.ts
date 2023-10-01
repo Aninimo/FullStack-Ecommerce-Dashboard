@@ -79,4 +79,4 @@ export default withServerSideAuth(async function handler(
 
     return res.status(500).end()
   }
-}
+})
