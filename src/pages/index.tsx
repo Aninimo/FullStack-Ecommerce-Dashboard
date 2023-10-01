@@ -35,8 +35,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   });
 
   if (store) {
-    context.res.writeHead(302, { Location: `/${store.id}` });
-    context.res.end();
+    ctx.res.writeHead(302, { Location: `/${store.id}` });
+    ctx.res.end();
   }
 
   return { props: {} };
