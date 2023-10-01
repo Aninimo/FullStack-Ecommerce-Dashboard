@@ -26,7 +26,7 @@ export default async function handler(
         throw new Error('Value is required')
       }
 
-      const { storeId } = req.query
+      const storeId = req.query.storeId as string;
 
       if (!storeId) {
         throw new Error('Store id is required')
@@ -34,7 +34,7 @@ export default async function handler(
 
       const storeByUserId = await prismadb.store.findFirst({
         where: {
-          id: storeId as string,
+          id: storeId,
           userId
         }
       })
@@ -47,7 +47,7 @@ export default async function handler(
         data: {
           name,
           value,
-          storeId: storeId as string
+          storeId: storeId
         }
       })
       
@@ -63,7 +63,7 @@ export default async function handler(
 
       const colors = await prismadb.color.findMany({
         where: {
-          storeId: storeId as string
+          storeId: storeId
         }
       })
       
