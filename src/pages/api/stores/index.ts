@@ -1,37 +1,46 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { withServerSideAuth } from '@clerk/nextjs/ssr'
+import { getAuth } from '@clerk/nextjs/server'
 
 import prismadb from '../../../lib/prismadb'
 
-const handler = async (req: NextApiRequest, res: NextApiResponse, user) => {
+export default async function handler(
+  req: NextApiRequest, 
+  res: NextApiResponse
+) {
   try {
-    if (req.method === 'POST') {
-      const { body } = req;
-      const { name } = body;
+    if(req.method === 'POST'){
+      const { userId } = getAuth(req)
+      const { body } = req
+    
+      const { name } = body
 
-      if (!user) {
-        return res.status(401).json({ error: 'Unauthorized' });
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' })
+    }
+
+      if (!name) {
+        return res.status(400).json({ error: 'Name is required' })
+      }
+
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' })
       }
 
       if (!name) {
-        return res.status(400).json({ error: 'Name is required' });
+        return res.status(400).json({ error: 'Name is required' })
       }
 
       const store = await prismadb.store.create({
         data: {
           name,
-          userId: user.id,
-        },
-      });
-
-      return res.status(200).json(store);
+          userId,
+        }
+      })
+  
+      return res.status(200).json(store)
     }
   } catch (error) {
-    console.error('[STORES_POST]', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    console.error('[STORES_POST]', error)
+    return res.status(500).json({ error: 'Internal Server Error' })
   }
-};
-
-export default withServerSideAuth(async (req, res, user) => {
-  return handler(req, res, user);
-});
+}
