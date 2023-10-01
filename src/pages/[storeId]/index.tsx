@@ -2,7 +2,7 @@ import { withServerSideAuth } from '@clerk/nextjs/ssr';
 import { getAuth } from '@clerk/nextjs/server';
 
 import { Navbar } from '../../components/navbar';
-import { DashboardPage } from './DashboardPage';
+import DashboardPage from './DashboardPage';
 import prismadb from '../../lib/prismadb'
 import { getTotalRevenue } from '../../actions/get-total-revenue'
 import { getSalesCount } from '../../actions/get-sales-count'
