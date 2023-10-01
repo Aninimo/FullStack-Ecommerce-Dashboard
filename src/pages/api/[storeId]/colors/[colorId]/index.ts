@@ -1,21 +1,22 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { withServerSideAuth } from '@clerk/nextjs/ssr'
+import { getAuth } from '@clerk/nextjs/server'
+
 import prismadb from '../../../../../lib/prismadb'
 
-export default withServerSideAuth(async function handler(
+export default async function handler(
   req: NextApiRequest, 
   res: NextApiResponse
 ) {
-  try {
-    const { userId } = req.auth;
-    
-    if (!userId) {
-      throw new Error('Unauthenticated')
-    }
+  try{
+    if(req.method === 'POST'){
+      const { userId } = getAuth(req)
 
-    if (req.method === 'POST') {
       const { body } = req
       const { name, value } = body
+
+      if (!userId) {
+        throw new Error('Unauthenticated')
+      }
 
       if (!name) {
         throw new Error('Name is required')
@@ -31,11 +32,9 @@ export default withServerSideAuth(async function handler(
         throw new Error('Store id is required')
       }
 
-      const storeIdStr = Array.isArray(storeId) ? storeId[0] : storeId;
-
       const storeByUserId = await prismadb.store.findFirst({
         where: {
-          id: storeIdStr,
+          id: storeId as string,
           userId
         }
       })
@@ -48,7 +47,7 @@ export default withServerSideAuth(async function handler(
         data: {
           name,
           value,
-          storeId: storeIdStr
+          storeId: storeId as string
         }
       })
       
@@ -62,20 +61,18 @@ export default withServerSideAuth(async function handler(
         throw new Error('Store id is required')
       }
 
-      const storeIdStr = Array.isArray(storeId) ? storeId[0] : storeId as string;
-
       const colors = await prismadb.color.findMany({
         where: {
-          storeId: storeIdStr
+          storeId: storeId as string
         }
       })
       
       return res.status(200).json(colors)
     }
-
     return res.status(405).end()
-  } catch (error) {
-    console.error(error)
+  }catch (error) {
+    console.log(error)
+
     return res.status(500).end()
   }
-})
+}
