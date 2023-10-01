@@ -83,8 +83,8 @@ export const ColorForm: React.FC<ColorFormProps> = ({
       pathname: `/${params.storeId}/colors`,
       query: { formData: responseData },
     });
-  } catch (error: any) {
-    toast.error(error);
+  } catch (error) {
+    toast.error(`${error}`);
   } finally {
     setLoading(false);
   }
