@@ -31,7 +31,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const store = await prismadb.store.findFirst({
     where: {
-      userId,
+      userId as string,
     },
   });
 
