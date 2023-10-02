@@ -1,7 +1,7 @@
-import { useAuth } from '@clerk/clerk-react';
 import { useEffect } from 'react'; 
 import { useRouter } from 'next/router';
-
+import { useAuth } from '@clerk/nextjs'
+ 
 import SetupPage from './SetupPage';
 import prismadb from '../lib/prismadb';
 
