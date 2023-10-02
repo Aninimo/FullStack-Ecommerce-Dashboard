@@ -6,11 +6,11 @@ import SetupPage from './SetupPage';
 import prismadb from '../lib/prismadb';
 
 export default function App() {
-  const { user } = useAuth();
+  const { userId } = useAuth();
   const router = useRouter();
 
   useEffect(() => { 
-    if (!user) {
+    if (!userId) {
       router.push('/sign-in');
     } else {
       const fetchStore = async () => {
@@ -27,7 +27,7 @@ export default function App() {
 
       fetchStore();
     }
-  }, [user, router]);
+  }, [userId, router]);
 
   return (
     <>
