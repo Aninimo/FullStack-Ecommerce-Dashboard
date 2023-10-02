@@ -7,16 +7,18 @@ import prismadb from '../lib/prismadb';
 
 export default function MyPage() {
   const router = useRouter();
-  const { userId } = useAuth();
-  const [hasStore, setHasStore] = useState(false);
+  const auth = useAuth();
+  const userId = auth.userId;
 
   useEffect(() => {
     const checkStore = async () => {
-      const store = await prismadb.store.findFirst({
-        where: {
-          userId,
-        },
-      });
+      if (typeof userId === 'string') {
+        const store = await prismadb.store.findFirst({
+          where: {
+            userId,
+          },
+        })
+      }
     };
 
     if (!userId) {
