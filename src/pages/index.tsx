@@ -16,7 +16,7 @@ export default function App() {
       const fetchStore = async () => {
         const store = await prismadb.store.findFirst({
           where: {
-            userId: user.id,
+            userId
           },
         });
 
