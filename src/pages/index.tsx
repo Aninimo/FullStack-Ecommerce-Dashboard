@@ -17,7 +17,11 @@ export default function MyPage() {
           where: {
             userId,
           },
-        })
+        });
+
+        if (store) {
+          router.push(`/${store.id}`);
+        }
       }
     };
 
