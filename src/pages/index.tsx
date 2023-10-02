@@ -7,7 +7,7 @@ import prismadb from '../lib/prismadb';
 
 export default function MyPage() {
   const router = useRouter();
-  const userId = useAuth();
+  const { userId } = useAuth();
   const [hasStore, setHasStore] = useState(false);
 
   useEffect(() => {
