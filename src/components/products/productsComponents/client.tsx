@@ -23,7 +23,7 @@ export function ProductsClient({
     <> 
       <div className='flex items-center justify-between'>
         <Heading title={`Products (${data.length})`} description='Manage products for your store' />
-        <Button onClick={() => router.push(`/${params.storeId}/routes/products/new`)}>
+        <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
           <Plus className='mr-2 h-4 w-4'/> Add New
         </Button>
       </div>
