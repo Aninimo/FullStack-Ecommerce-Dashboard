@@ -114,7 +114,7 @@ export function ProductForm({
     toast.success(toastMessage);
 
     router.push({
-      pathname: `/${params.storeId}/routes/products`,
+      pathname: `/${params.storeId}/products`,
       query: { formData: responseData },
     });
   } catch (error: any) {
