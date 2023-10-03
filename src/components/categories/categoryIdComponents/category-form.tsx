@@ -82,7 +82,7 @@ export function CategoryForm({
     toast.success(toastMessage);
 
     router.push({
-      pathname: `/${params.storeId}/routes/categories`,
+      pathname: `/${params.storeId}/categories`,
       query: { formData: responseData },
     });
   } catch (error: any) {
