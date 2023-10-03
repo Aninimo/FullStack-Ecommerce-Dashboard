@@ -1,5 +1,4 @@
 import { withServerSideAuth } from '@clerk/nextjs/ssr'
-import { getAuth } from '@clerk/nextjs/server'
 
 import { SettingsForm } from '../../../components/settings/settingsComponents/settings-form'
 import prismadb from '../../../lib/prismadb'
@@ -20,7 +19,7 @@ export default function SettingsPage({ store }: SettingsPageProps){
 }
 
 export const getServerSideProps = withServerSideAuth(async ({ req, params }) => {
-  const { userId } = getAuth(req);
+  const { userId } = req.auth;
   const storeId = params?.storeId as string
    
   const store = await prismadb.store.findFirst({
