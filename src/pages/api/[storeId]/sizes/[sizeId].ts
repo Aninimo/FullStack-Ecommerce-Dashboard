@@ -1,17 +1,17 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { getAuth } from '@clerk/nextjs/server'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { requireAuth, RequireAuthProp} from '@clerk/nextjs/api'
 
-import prismadb from '../../../../../lib/prismadb'
+import prismadb from '../../../../..lib/prismadb'
 
-export default async function handler(
-  req: NextApiRequest,
+export default requireAuth(async (
+  req: RequireAuthProp<NextApiRequest>,
   res: NextApiResponse
-) {
+)  => {
   try {
     if (req.method === 'GET') {
       const sizeId = Array.isArray(req.query.sizeId)
-  ? req.query.sizeId[0] 
-  : req.query.sizeId as string;
+      ? req.query.sizeId[0] 
+      : req.query.sizeId as string;
 
       if (!sizeId) {
         throw new Error('Size id is required')
@@ -27,19 +27,19 @@ export default async function handler(
     }
 
     if (req.method === 'DELETE') {
-      const { userId } = getAuth(req)
+      const { userId } = req.auth;
 
       if (!userId) {
         throw new Error('Unauthenticated')
       }
 
       const sizeId = Array.isArray(req.query.sizeId)
-  ? req.query.sizeId[0] 
-  : req.query.sizeId as string; 
+      ? req.query.sizeId[0] 
+      : req.query.sizeId as string; 
 
       const storeId = Array.isArray(req.query.storeId)
-  ? req.query.storeId[0] 
-  : req.query.storeId as string; 
+      ? req.query.storeId[0] 
+      : req.query.storeId as string; 
 
       if (!sizeId) {
         throw new Error('Size id is required')
@@ -65,7 +65,7 @@ export default async function handler(
     }
 
     if (req.method === 'PATCH') {
-      const { userId } = getAuth(req)
+      const { userId } = req.auth;
 
       const { body } = req
       const { name, value } = body
@@ -83,11 +83,12 @@ export default async function handler(
       }
 
       const sizeId = Array.isArray(req.query.sizeId)
-  ? req.query.sizeId[0] 
-  : req.query.sizeId as string; 
+      ? req.query.sizeId[0] 
+     : req.query.sizeId as string; 
+      
      const storeId = Array.isArray(req.query.storeId)
-  ? req.query.storeId[0] 
-  : req.query.storeId as string; 
+     ? req.query.storeId[0] 
+     : req.query.storeId as string; 
       
       if (!sizeId) {
         throw new Error('Size id is required')
@@ -123,4 +124,4 @@ export default async function handler(
 
     return res.status(500).end()
   }
-}
+})
