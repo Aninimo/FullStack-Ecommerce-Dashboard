@@ -1,12 +1,12 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { getAuth } from '@clerk/nextjs/server';
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { requireAuth, RequireAuthProp} from '@clerk/nextjs/api'
 
-import prismadb from '../../../../../lib/prismadb';
+import prismadb from '../../../../lib/prismadb';
 
-export default async function handler(
-  req: NextApiRequest, 
+export default requireAuth(async (
+  req: RequireAuthProp<NextApiRequest>,
   res: NextApiResponse
-) {
+)  => {
   const { method, query } = req;
   const { productId, storeId } = query;
 
@@ -30,7 +30,7 @@ export default async function handler(
 
       return res.status(200).json(product);
     } else if (method === 'DELETE') {
-      const { userId } = getAuth(req);
+      const { userId } = req.auth;
 
       if (!userId) {
         return res.status(403).json({ error: "Unauthenticated" });
@@ -59,7 +59,7 @@ export default async function handler(
 
       return res.status(200).json(product);
     } else if (method === 'PATCH') {
-      const { userId } = getAuth(req);
+      const { userId } = req.auth;
 
       const { body } = req
       const { name, price, categoryId, images, colorId, sizeId, isFeatured, isArchived } = body;
@@ -124,4 +124,4 @@ export default async function handler(
     console.error('[PRODUCT_API]', error);
     return res.status(500).json({ error: "Internal error" });
   }
-}
+})
