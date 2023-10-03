@@ -1,15 +1,15 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { requireAuth, RequireAuthProp } from '@clerk/nextjs/api'
+import { NextApiRequest, NextApiResponse } from 'next'
+import { getAuth } from '@clerk/nextjs/server'
 
 import prismadb from '../../../../lib/prismadb'
 
-export default requireAuth<NextApiRequest, NextApiResponse>(async (
-  req: RequireAuthProp<NextApiRequest>, 
+export default async function handler(
+  req: NextApiRequest,
   res: NextApiResponse
-) => {
+) {
   try {
     if (req.method === 'PATCH') {
-      const { userId } = req.auth
+      const { userId } = getAuth(req)
       const { body } = req
       const { name } = body
 
@@ -43,7 +43,7 @@ export default requireAuth<NextApiRequest, NextApiResponse>(async (
     }
 
     if (req.method === 'DELETE') {
-      const { userId } = req.auth
+      const { userId } = getAuth(req)
       const { storeId } = req.query
 
       if (!userId) {
@@ -74,4 +74,4 @@ export default requireAuth<NextApiRequest, NextApiResponse>(async (
 
     return res.status(500).end();
   }
-})
+}
