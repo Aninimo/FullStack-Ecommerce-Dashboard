@@ -74,4 +74,4 @@ export default requireAuth(async (
 
     return res.status(500).end();
   }
-}
+})
