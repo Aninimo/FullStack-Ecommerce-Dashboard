@@ -1,12 +1,12 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { getAuth } from '@clerk/nextjs/server'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { requireAuth, RequireAuthProp} from '@clerk/nextjs/api'
 
-import prismadb from '../../../../../lib/prismadb'
+import prismadb from '../../../../..lib/prismadb'
 
-export default async function handler(
-  req: NextApiRequest,
+export default requireAuth(async (
+  req: RequireAuthProp<NextApiRequest>,
   res: NextApiResponse
-) {
+)  => {
   try {
     if (req.method === 'GET') {
       const categoryId = Array.isArray(req.query.categoryId) ? req.query.categoryId[0] : req.query.categoryId as string;
@@ -28,14 +28,14 @@ export default async function handler(
     }
 
     if (req.method === 'DELETE') {
-      const { userId } = getAuth(req)
-
+      const { userId } = req.auth
+      
       if (!userId) {
         throw new Error('Unauthenticated')
       }
 
      const categoryId = req.query.categoryId as string;
-    const storeId = req.query.storeId as string;
+     const storeId = req.query.storeId as string;
 
 
     if (!categoryId) {
@@ -63,8 +63,8 @@ export default async function handler(
     }
 
     if (req.method === 'PATCH') {
-      const { userId } = getAuth(req)
-
+      const { userId } = req.auth
+      
       const { body } = req
       const { name, billboardId } = body
 
@@ -117,4 +117,4 @@ export default async function handler(
 
     return res.status(500).end()
   }
-}
+})
