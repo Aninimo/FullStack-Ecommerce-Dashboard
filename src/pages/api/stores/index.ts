@@ -35,4 +35,4 @@ export default requireAuth(async (
     console.error('[STORES_POST]', error)
     return res.status(500).json({ error: 'Internal Server Error' })
   }
-}
+})
