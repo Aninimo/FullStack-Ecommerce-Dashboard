@@ -77,7 +77,7 @@ export function SizeForm({
     toast.success(toastMessage);
 
     router.push({
-      pathname: `/${params.storeId}/routes/sizes`,
+      pathname: `/${params.storeId}/sizes`,
       query: { formData: responseData },
     });
   } catch (error: any) {
