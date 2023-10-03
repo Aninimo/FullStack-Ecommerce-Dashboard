@@ -58,7 +58,7 @@ export function CellAction({
   }
 
   const onUpdate = () => {
-    router.push(`/${params.storeId}/routes/sizes/${data.id}`)
+    router.push(`/${params.storeId}/sizes/${data.id}`)
   }
 
   return (
