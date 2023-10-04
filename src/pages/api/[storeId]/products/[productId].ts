@@ -68,7 +68,8 @@ export default requireAuth(async (
       });
 
       return res.status(200).json(product);
-    } else if (method === 'PATCH') {
+    }
+    if (method === 'PATCH') {
       const { userId } = req.auth;
 
       const { body } = req
@@ -98,7 +99,7 @@ export default requireAuth(async (
       });
 
       if (!storeByUserId) {
-        return res.status(405).json({ error: "Unauthorized" });
+        return res.status(405).json({ error: 'Unauthorized' });
       }
 
       const priceAsString = price.toFixed(2)
