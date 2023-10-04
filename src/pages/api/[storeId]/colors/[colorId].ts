@@ -9,8 +9,8 @@ export default requireAuth(async (
 )  => {
   try{
     if (req.method === 'GET') {
-      const colorId = req.query.colorId as string
-      
+      const colorId = Array.isArray(req.query.colorId) ? req.query.colorId[0] : req.query.colorId;
+
       if (!colorId) {
         throw new Error('Color id is required')
       }
@@ -31,9 +31,13 @@ export default requireAuth(async (
         throw new Error('Unauthenticated')
       }
 
-     const colorId = req.query.colorId as string;
-     const storeId = req.query.storeId as string;
-
+     const colorId = Array.isArray(req.query.colorId)
+      ? req.query.colorId[0] 
+      : req.query.colorId as string; 
+      
+     const storeId = Array.isArray(req.query.storeId)
+      ? req.query.storeId[0] 
+      : req.query.storeId as string; 
 
     if (!colorId) {
       throw new Error('color id is required')
@@ -41,7 +45,7 @@ export default requireAuth(async (
 
     const storeByUserId = await prismadb.store.findFirst({
       where: {
-        id: params.storeId,
+        id: storeId,
         userId
       }
     })
@@ -77,6 +81,10 @@ export default requireAuth(async (
         throw new Error('Value is required');
       }
 
+      const colorId = Array.isArray(req.query.colorId)
+      ? req.query.colorId[0] 
+      : req.query.colorId as string; 
+      
       if (!colorId) {
         throw new Error('Color id is required');
       }
