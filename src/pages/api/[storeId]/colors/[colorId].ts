@@ -69,6 +69,41 @@ export default requireAuth(async (
       
       return res.status(200).json(colors)
     }
+
+    if (req.method === 'DELETE') {
+      const { userId } = req.auth
+      
+      if (!userId) {
+        throw new Error('Unauthenticated')
+      }
+
+     const colorId = req.query.colorId as string;
+     const storeId = req.query.storeId as string;
+
+
+    if (!colorId) {
+      throw new Error('color id is required')
+    }
+
+    const storeByUserId = await prismadb.store.findFirst({
+      where: {
+        id: params.storeId,
+        userId
+      }
+    })
+
+     if (!storeByUserId) {
+       throw new Error('Unauthorized')
+     }
+
+     const color = await prismadb.color.delete({
+       where: {
+         id: colorId
+       }
+     })
+      
+      return res.status(200).json(color)
+    }
     return res.status(405).end()
   }catch (error) {
     console.log(error)
