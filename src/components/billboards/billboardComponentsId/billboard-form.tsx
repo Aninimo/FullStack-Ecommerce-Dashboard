@@ -80,7 +80,7 @@ export function BillboardForm({
     toast.success(toastMessage);
 
     router.push({
-      pathname: `/${params.storeId/billboards}`,
+      pathname: `/${params.storeId}/billboards`,
       query: { formData: responseData },
     });
   } catch (error: any) {
