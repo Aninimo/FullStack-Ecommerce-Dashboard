@@ -8,7 +8,7 @@ export default requireAuth(async (
   res: NextApiResponse
 )  => {
   try {
-    if (method === 'GET') {
+    if (req.method === 'GET') {
       const productId = Array.isArray(req.query.productId)
       ? req.query.productId[0] 
       : req.query.productId as string;
@@ -31,7 +31,8 @@ export default requireAuth(async (
       });
 
       return res.status(200).json(product);
-    } else if (method === 'DELETE') {
+    } 
+    if (req.method === 'DELETE') {
       const { userId } = req.auth;
 
       const productId = Array.isArray(req.query.productId)
@@ -69,7 +70,7 @@ export default requireAuth(async (
 
       return res.status(200).json(product);
     }
-    if (method === 'PATCH') {
+    if (req.method === 'PATCH') {
       const { userId } = req.auth;
 
       const { body } = req
