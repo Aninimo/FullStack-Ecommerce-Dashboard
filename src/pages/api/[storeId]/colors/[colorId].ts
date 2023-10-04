@@ -9,10 +9,10 @@ export default requireAuth(async (
 )  => {
   try{
     if (req.method === 'GET') {
-      const storeId = req.query.storeId as string;
-
-      if (!storeId) {
-        throw new Error('Store id is required')
+      const colorId = req.query.colorId as string
+      
+      if (!colorId) {
+        throw new Error('Color id is required')
       }
 
       const color = await prismadb.color.findUnique({
