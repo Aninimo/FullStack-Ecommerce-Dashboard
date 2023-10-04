@@ -8,52 +8,6 @@ export default requireAuth(async (
   res: NextApiResponse
 )  => {
   try{
-    if(req.method === 'POST'){
-      const { userId } = req.auth
-      
-      const { body } = req
-      const { name, value } = body
-
-      if (!userId) {
-        throw new Error('Unauthenticated')
-      }
-
-      if (!name) {
-        throw new Error('Name is required')
-      }
-
-      if (!value) {
-        throw new Error('Value is required')
-      }
-
-      const storeId = req.query.storeId as string;
-
-      if (!storeId) {
-        throw new Error('Store id is required')
-      }
-
-      const storeByUserId = await prismadb.store.findFirst({
-        where: {
-          id: storeId,
-          userId
-        }
-      })
-
-      if (!storeByUserId) {
-        throw new Error('Unauthorized')
-      }
-
-      const color = await prismadb.color.create({
-        data: {
-          name,
-          value,
-          storeId: storeId
-        }
-      })
-      
-      return res.status(200).json(color)
-    } 
-
     if (req.method === 'GET') {
       const storeId = req.query.storeId as string;
 
@@ -61,13 +15,13 @@ export default requireAuth(async (
         throw new Error('Store id is required')
       }
 
-      const colors = await prismadb.color.findMany({
+      const color = await prismadb.color.findUnique({
         where: {
-          storeId: storeId
+          id: colorId
         }
       })
       
-      return res.status(200).json(colors)
+      return res.status(200).json(color)
     }
 
     if (req.method === 'DELETE') {
@@ -102,6 +56,52 @@ export default requireAuth(async (
        }
      })
       
+      return res.status(200).json(color)
+    }
+
+    if(req.method === 'PATCH'){
+      const { userId } = req.auth
+
+      const { body } = req
+      const { name, value } = body
+
+      if (!userId) {
+        throw new Error('Unauthenticated');
+      }
+
+      if (!name) {
+        throw new Error('Name is required');
+      }
+
+      if (!value) {
+        throw new Error('Value is required');
+      }
+
+      if (!colorId) {
+        throw new Error('Color id is required');
+      }
+
+      const storeByUserId = await prismadb.store.findFirst({
+        where: {
+          id: storeId,
+          userId
+        }
+      });
+
+      if (!storeByUserId) {
+        throw new Error('Unauthorized');
+      }
+
+      const color = await prismadb.color.update({
+        where: {
+          id: colorId
+        },
+        data: {
+          name,
+          value
+        }
+      });
+  
       return res.status(200).json(color)
     }
     return res.status(405).end()
