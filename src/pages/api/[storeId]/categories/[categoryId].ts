@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { requireAuth, RequireAuthProp} from '@clerk/nextjs/api'
 
-import prismadb from '../../../../..lib/prismadb'
+import prismadb from '../../../../lib/prismadb'
 
 export default requireAuth(async (
   req: RequireAuthProp<NextApiRequest>,
