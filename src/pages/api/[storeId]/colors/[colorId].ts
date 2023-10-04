@@ -84,6 +84,10 @@ export default requireAuth(async (
       const colorId = Array.isArray(req.query.colorId)
       ? req.query.colorId[0] 
       : req.query.colorId as string; 
+
+      const storeId = Array.isArray(req.query.storeId)
+     ? req.query.storeId[0] 
+     : req.query.storeId as string; 
       
       if (!colorId) {
         throw new Error('Color id is required');
