@@ -7,18 +7,20 @@ export default requireAuth(async (
   req: RequireAuthProp<NextApiRequest>,
   res: NextApiResponse
 )  => {
-  const { method, query } = req;
-  const { productId, storeId } = query;
-
   try {
     if (method === 'GET') {
+      const productId = Array.isArray(req.query.productId)
+      ? req.query.productId[0] 
+      : req.query.productId as string;
+
+
       if (!productId) {
         return res.status(400).json({ error: "Product id is required" });
       }
 
       const product = await prismadb.product.findUnique({
         where: {
-          id: productId as string
+          id: productId
         },
         include: {
           images: true,
@@ -31,6 +33,14 @@ export default requireAuth(async (
       return res.status(200).json(product);
     } else if (method === 'DELETE') {
       const { userId } = req.auth;
+
+      const productId = Array.isArray(req.query.productId)
+      ? req.query.productId[0] 
+      : req.query.productId as string;
+
+      const storeId = Array.isArray(req.query.storeId)
+      ? req.query.storeId[0] 
+      : req.query.storeId as string;
 
       if (!userId) {
         return res.status(403).json({ error: "Unauthenticated" });
@@ -53,7 +63,7 @@ export default requireAuth(async (
 
       const product = await prismadb.product.delete({
         where: {
-          id: productId as string
+          id: productId
         },
       });
 
@@ -63,6 +73,14 @@ export default requireAuth(async (
 
       const { body } = req
       const { name, price, categoryId, images, colorId, sizeId, isFeatured, isArchived } = body;
+
+      const productId = Array.isArray(req.query.productId)
+      ? req.query.productId[0] 
+      : req.query.productId as string;
+
+      const storeId = Array.isArray(req.query.storeId)
+      ? req.query.storeId[0] 
+      : req.query.storeId as string;
 
       if (!userId) {
         return res.status(403).json({ error: "Unauthenticated" });
@@ -74,7 +92,7 @@ export default requireAuth(async (
 
       const storeByUserId = await prismadb.store.findFirst({
         where: {
-          id: storeId as string,
+          id: storeId,
           userId
         }
       });
@@ -87,7 +105,7 @@ export default requireAuth(async (
 
       await prismadb.product.update({
         where: {
-          id: productId as string
+          id: productId
         },
         data: {
           name,
@@ -105,7 +123,7 @@ export default requireAuth(async (
 
       const updatedProduct = await prismadb.product.update({
         where: {
-          id: productId as string
+          id: productId 
         },
         data: {
           images: {
